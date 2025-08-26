@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Header.css';
+import { useNavigate } from 'react-router-dom'; // ✅ Importa useNavigate
 import logoSenai from '../assets/imagens/logosenai.png';
 import iconeUsuario from '../assets/imagens/boneco.png';
 
@@ -8,6 +9,7 @@ import ModalCadastro from './ModalCadastro';
 import ModalSenha from './ModalSenha';
 
 function Header() {
+  const navigate = useNavigate(); // ✅ Hook de navegação
   const [modalAberto, setModalAberto] = useState(''); // 'login', 'cadastro', 'senha', ''
 
   const menuItems = [
@@ -17,6 +19,17 @@ function Header() {
     { texto: 'Transparência', link: 'https://transparencia.sp.senai.br/' },
     { texto: 'Contato com a Ouvidoria' }
   ];
+
+  // ✅ Lógica do botão SOU ALUNO
+  function handleAlunoClick() {
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+
+    if (usuarioLogado) {
+      navigate('/Admin'); // Já logado → vai direto para /usuario
+    } else {
+      setModalAberto('login'); // Não logado → abre modal de login
+    }
+  }
 
   return (
     <>
@@ -39,7 +52,7 @@ function Header() {
         <button
           className="usuario"
           type="button"
-          onClick={() => setModalAberto('login')}
+          onClick={handleAlunoClick} // ✅ Agora verifica se está logado
         >
           <div className="divisor" />
           <img src={iconeUsuario} alt="Usuário" className="icone-usuario" />

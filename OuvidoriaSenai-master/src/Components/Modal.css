@@ -37,14 +37,12 @@
   line-height: 24px;
   text-align: center;
   cursor: pointer;
-  
 }
 
 .logo-senai-modal {
   width: 150px;
   margin: 10px auto 5px;
   display: block;
- 
 }
 
 .linha-vermelha {
@@ -138,4 +136,54 @@
   cursor: pointer;
   padding: 0;
   font-size: 13px;
+}
+
+.select-wrapper {
+  position: relative;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+}
+
+.select-area {
+  appearance: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+  color: #333;
+  outline: none;
+  padding-right: 30px;
+  cursor: pointer;
+}
+
+/* Ícone de seta */
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #555;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+/* Gira para cima ao abrir */
+.select-wrapper.open::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Placeholder */
+.select-area:invalid {
+  color: #aaa;
 }

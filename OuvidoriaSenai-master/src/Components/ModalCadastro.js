@@ -12,14 +12,16 @@ function ModalCadastro({ isOpen, onClose }) {
     telefone: '',
     senha: '',
     tipo: '',
-    area: '' // <- Nova propriedade adicionada
+    area: ''
   });
+
+  const [isSelectOpen, setIsSelectOpen] = useState(false); // controle da seta
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
-    const { name, value, type } = e.target;
-    setForm({ ...form, [name]: type === 'radio' ? value : value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
   };
 
   const handleSubmit = () => {
@@ -43,7 +45,7 @@ function ModalCadastro({ isOpen, onClose }) {
       React.createElement('div', { className: 'linha-vermelha' }),
       React.createElement('h2', { className: 'titulo-principal' }, 'Cadastro'),
 
-      // Campo E-mail
+      // Email
       React.createElement('div', { className: 'input-icon-container' }, [
         React.createElement('img', { src: boneco, alt: 'Ícone usuário' }),
         React.createElement('input', {
@@ -55,7 +57,7 @@ function ModalCadastro({ isOpen, onClose }) {
         })
       ]),
 
-      // Campo Nome
+      // Nome
       React.createElement('div', { className: 'input-icon-container' }, [
         React.createElement('img', { src: boneco, alt: 'Ícone usuário' }),
         React.createElement('input', {
@@ -67,7 +69,7 @@ function ModalCadastro({ isOpen, onClose }) {
         })
       ]),
 
-      // Campo CPF
+      // CPF
       React.createElement('div', { className: 'input-icon-container' }, [
         React.createElement('img', { src: boneco, alt: 'Ícone usuário' }),
         React.createElement('input', {
@@ -79,7 +81,7 @@ function ModalCadastro({ isOpen, onClose }) {
         })
       ]),
 
-      // Campo Telefone
+      // Telefone
       React.createElement('div', { className: 'input-icon-container' }, [
         React.createElement('img', { src: boneco, alt: 'Ícone usuário' }),
         React.createElement('input', {
@@ -91,7 +93,7 @@ function ModalCadastro({ isOpen, onClose }) {
         })
       ]),
 
-      // Campo Senha
+      // Senha
       React.createElement('div', { className: 'input-icon-container' }, [
         React.createElement('img', { src: cadeado, alt: 'Ícone senha' }),
         React.createElement('input', {
@@ -101,6 +103,25 @@ function ModalCadastro({ isOpen, onClose }) {
           value: form.senha,
           onChange: handleChange
         })
+      ]),
+
+      // Área de Atuação (com select)
+      React.createElement('div', {
+        className: isSelectOpen ? 'select-wrapper open' : 'select-wrapper'
+      }, [
+        React.createElement('select', {
+          name: 'area',
+          value: form.area,
+          onChange: handleChange,
+          className: 'select-area',
+          onFocus: () => setIsSelectOpen(true),
+          onBlur: () => setIsSelectOpen(false),
+          required: true
+        }, [
+          React.createElement('option', { value: '', disabled: true }, 'Área de Atuação'),
+          React.createElement('option', { value: 'Informática' }, 'Informática'),
+          React.createElement('option', { value: 'Mecânica' }, 'Mecânica')
+        ])
       ]),
 
       // Tipo de Usuário
@@ -120,24 +141,7 @@ function ModalCadastro({ isOpen, onClose }) {
         )
       ]),
 
-      // Área de Atuação
-      React.createElement('p', { className: 'user-type-label' }, 'Área de Atuação:'),
-      React.createElement('div', { className: 'user-type' }, [
-        ['Informática', 'Mecânica'].map(area =>
-          React.createElement('label', { key: area }, [
-            React.createElement('input', {
-              type: 'radio',
-              name: 'area',
-              value: area,
-              checked: form.area === area,
-              onChange: handleChange
-            }),
-            ` ${area} `
-          ])
-        )
-      ]),
-
-      // Botão de Enviar
+      // Botão
       React.createElement('button', { className: 'submit-btn', onClick: handleSubmit }, 'Cadastrar')
     ])
   );
