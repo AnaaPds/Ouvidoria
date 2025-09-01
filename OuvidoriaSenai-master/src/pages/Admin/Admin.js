@@ -11,7 +11,7 @@ function Admin() {
   const [filtroTipo, setFiltroTipo] = useState('');
   const [modoEdicao, setModoEdicao] = useState(null);
   const [itemEditando, setItemEditando] = useState(null);
-  const [itemVisualizando, setItemVisualizando] = useState(null); // novo estado para visualização
+  const [itemVisualizando, setItemVisualizando] = useState(null);
 
   useEffect(() => {
     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
@@ -23,7 +23,7 @@ function Admin() {
 
   useEffect(() => {
     carregarManifestacoes();
-  }, [filtroTipo]); // atualiza quando filtroTipo mudar
+  }, [filtroTipo]);
 
   const carregarManifestacoes = () => {
     try {
@@ -88,7 +88,6 @@ function Admin() {
     return tipos[tipo] || tipo;
   };
 
-  // Botões filtro definidos para facilitar
   const botoesFiltro = [
     { label: 'Todos', value: '' },
     { label: 'Denúncia', value: CrudService.TIPOS_MANIFESTACAO.DENUNCIA },
@@ -97,10 +96,13 @@ function Admin() {
     { label: 'Reclamação', value: CrudService.TIPOS_MANIFESTACAO.RECLAMACAO }
   ];
 
+  const urlBaseUploads = 'http://localhost:3000/uploads/'; // *** Ajuste aqui para o caminho correto das imagens ***
+
   return React.createElement(
     'div',
     { className: 'admin-container' },
     React.createElement(HeaderSimples, null),
+
     React.createElement(
       'div',
       { className: 'admin-content' },
@@ -147,7 +149,6 @@ function Admin() {
         )
       ),
 
-      // Visualizar manifestação na página
       itemVisualizando
         ? React.createElement(
             'div',
@@ -159,6 +160,16 @@ function Admin() {
             React.createElement('p', null, React.createElement('strong', null, 'Data Criação: '), formatarData(itemVisualizando.dataCriacao)),
             React.createElement('p', null, React.createElement('strong', null, 'Status: '), itemVisualizando.status),
             React.createElement('p', null, React.createElement('strong', null, 'Descrição: '), itemVisualizando.descricao || 'Sem descrição'),
+
+            // Imagem com caminho correto concatenado
+            itemVisualizando.anexo
+              ? React.createElement('img', {
+                  src: urlBaseUploads + itemVisualizando.anexo,
+                  alt: 'Anexo',
+                  style: { maxWidth: '100%', maxHeight: '300px', display: 'block', marginTop: '10px' }
+                })
+              : React.createElement('p', null, 'Sem anexo'),
+
             React.createElement(
               'button',
               { onClick: () => setItemVisualizando(null), className: 'btn-fechar' },
